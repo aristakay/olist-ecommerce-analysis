@@ -2,80 +2,38 @@
 
 ## Project Overview
 
-This project analyzes the Brazilian E-Commerce Public Dataset by Olist to evaluate sales performance, customer behavior, delivery efficiency, customer satisfaction, and seller performance.
+In this project, I analyzed the Brazilian E-Commerce Public Dataset by Olist to understand sales performance, customer purchasing behavior, delivery performance, customer reviews and seller activity.
 
-Using PostgreSQL for data storage and SQL analysis and Power BI for interactive visualization, this project transforms raw e-commerce data into business insights and actionable recommendations.
+I used PostgreSQL and SQL to explore the data, check relationships between tables and prepare metrics for reporting. I then connected the analysis to Power BI and built a four-page dashboard to present the main findings.
 
-## Business Objectives
-
-* Evaluate overall revenue, order volume, freight costs, and average order value.
-* Identify top-performing product categories and geographic markets.
-* Analyze customer purchasing behavior and repeat-customer activity.
-* Evaluate payment method usage and payment value.
-* Investigate delivery performance, delays, and customer review scores.
-* Compare seller performance by revenue, order volume, and items sold.
-
-## Dataset
-
-This project uses the **Brazilian E-Commerce Public Dataset by Olist**, available on Kaggle.
-
-The dataset contains information about orders, customers, order items, payments, reviews, products, sellers, geolocation, and product category translations.
-
-**Dataset source:** [Brazilian E-Commerce Public Dataset by Olist — Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
-
-### Dataset availability
-
-The original CSV files are not all included in this repository because `olist_geolocation_dataset.csv` exceeds GitHub's browser upload limit.
-
-To reproduce the analysis, download the original dataset from Kaggle and place the CSV files in your local project folder. The geolocation file is needed for analyses that depend on geographic coordinates or the original geolocation data.
-
-Other dataset files may be included in this repository where file size permits.
-
-### Main dataset tables
-
-| Dataset                                 | Description                                                            |
-| --------------------------------------- | ---------------------------------------------------------------------- |
-| `olist_customers_dataset.csv`           | Customer IDs, customer unique IDs, ZIP codes, cities, and states       |
-| `olist_geolocation_dataset.csv`         | ZIP code prefixes and geographic coordinates                           |
-| `olist_order_items_dataset.csv`         | Products sold within each order, seller IDs, prices, and freight       |
-| `olist_order_payments_dataset.csv`      | Payment methods, installments, and payment values                      |
-| `olist_orders_dataset.csv`              | Order status and purchase, approval, shipping, and delivery timestamps |
-| `olist_order_reviews_dataset.csv`       | Customer review scores and review information                          |
-| `olist_products_dataset.csv`            | Product IDs, categories, and product dimensions                        |
-| `olist_sellers_dataset.csv`             | Seller IDs and location information                                    |
-| `product_category_name_translation.csv` | Portuguese-to-English product category translations                    |
+My goal was to understand not only how much revenue the business generated, but also which product categories performed well, how frequently customers returned, and whether delivery performance was associated with customer satisfaction.
 
 ## Tools and Technologies
 
-* **PostgreSQL** — relational database and data analysis
-* **pgAdmin** — database administration and SQL query execution
-* **SQL** — data validation, joins, aggregations, business metrics, and analytical views
-* **Power BI Desktop** — interactive dashboards and KPI reporting
-* **DAX** — calculated measures and report calculations
-* **GitHub** — project documentation and portfolio publishing
+* **PostgreSQL** : database management and SQL analysis
+* **pgAdmin** : managing the database and running queries
+* **SQL** : data validation, joins, aggregations, and analytical views
+* **Power BI Desktop** : interactive dashboards and visual reporting
+* **DAX** : calculated measures and report calculations
+* **GitHub** : project documentation and version sharing
 
-## Project Workflow
+## Dataset
 
-1. Imported the Olist CSV datasets into PostgreSQL.
-2. Validated table row counts, key relationships, and data consistency.
-3. Investigated order statuses, revenue, freight, payment methods, customer behavior, delivery performance, and reviews.
-4. Created SQL views to prepare data for dashboard reporting.
-5. Connected Power BI to PostgreSQL and developed four interactive dashboard pages.
-6. Documented the methodology, metrics, insights, and recommendations.
+I used the [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), available on Kaggle.
 
-## Data Validation and Preparation
+The dataset contains information about orders, customers, products, sellers, payments, reviews, and geographic locations. These tables allowed me to compare business performance across different parts of the e-commerce process.
 
-Data preparation and validation included:
+### Dataset availability
 
-* Checking imported table row counts.
-* Reviewing primary identifiers and relationships between tables.
-* Checking for orphaned records in selected relationships.
-* Reviewing order status distributions and purchase dates.
-* Investigating duplicate review identifiers before finalizing the review table.
-* Creating analytical views for consistent reporting.
-* Reviewing differences in metric totals caused by table joins and analysis scope.
+The file `olist_geolocation_dataset.csv` is not included in this repository because it exceeds GitHub's browser upload limit.
 
-### Selected table row counts
+To reproduce the analysis, download the original dataset from Kaggle and place the CSV files in your local project folder before importing them into PostgreSQL. Other smaller CSV files may be included in the repository.
+
+## Data Preparation and Validation
+
+Before building the dashboards, I checked the imported tables, reviewed row counts, and examined relationships between the datasets. I also checked for orphaned records in selected relationships and investigated duplicate review identifiers before finalizing the review table.
+
+Some of the main table counts were:
 
 | Table          |      Rows |
 | -------------- | --------: |
@@ -88,42 +46,37 @@ Data preparation and validation included:
 | Products       |    32,951 |
 | Sellers        |     3,095 |
 
-The review row count reflects the imported and prepared table used in this analysis. Counts and metrics may vary across views when different joins or analysis scopes are used.
+The review count reflects the prepared table used in this analysis.
+
+I also checked the order status distribution and the date range of the available orders. The order dates in the dataset range from September 2016 to October 2018.
+
+During this stage, I paid attention to how joins affected the results. Some views use different subsets of orders, so their totals do not always match the overall order count exactly.
 
 ## SQL Analysis
 
-SQL was used to create analytical views for Power BI and to examine the following areas:
+I used SQL to examine the main business metrics and prepare data for Power BI. My analysis covered:
 
-* Overall business KPIs
-* Monthly sales and order trends
-* Product category revenue
-* State-level sales performance
-* Customer purchasing behavior
-* Payment method performance
+* Overall product revenue, freight, order count, and average order value
+* Monthly revenue and order trends
+* Product category performance
+* State-level revenue and order activity
+* Customer purchasing patterns
+* Payment method usage and payment value
 * Delivery duration and late deliveries
-* Customer review performance
+* Customer review scores
 * Seller revenue and order performance
 
-### Main analytical views
+I created analytical views, including `vw_overall_kpis`, `vw_monthly_sales`, `vw_total_orders`, and `vw_payment_performance`, to make the results easier to use in the report.
 
-The project includes views such as:
+The SQL scripts are available in the `sql/` folder.
 
-* `vw_overall_kpis`
-* `vw_monthly_sales`
-* `vw_total_orders`
-* `vw_payment_performance`
+## Power BI Dashboard
 
-Additional views support product category, customer, delivery, geographic, and seller analysis.
-
-SQL scripts are provided in the `sql/` folder where available.
-
-## Power BI Dashboards
-
-The Power BI report contains four pages designed to answer different business questions.
+I organized the report into four pages so that each page focuses on a different business question.
 
 ### 1. Executive Overview
 
-Provides a high-level summary of business performance.
+This page provides a summary of overall business performance.
 
 **Key metrics**
 
@@ -132,161 +85,114 @@ Provides a high-level summary of business performance.
 * Total freight: **R$2.25 million**
 * Average order value: **R$136.68**
 
-**Visualizations**
-
-* Monthly revenue trend
-* Top 10 product categories by revenue
-* Top 10 states by revenue
-* Orders by order status
-* Reporting-period slicer
+I included a monthly revenue trend, the top 10 product categories by revenue, the top 10 states by revenue, and a breakdown of orders by status. A period slicer allows users to explore the monthly results.
 
 ![Executive Overview](screenshots/01-executive-overview.png)
 
 ### 2. Sales & Customer Analysis
 
-Explores sales trends, customer purchasing patterns, product categories, and payment performance.
+On this page, I compared sales trends, customer purchasing behavior, product category revenue, and payment methods.
 
-**Key findings**
+One finding was the difference between one-time and repeat customers in the customer classification used for the report. One-time customers represented approximately **96.88%**, while repeat customers represented approximately **3.12%**.
 
-* One-time customers account for approximately **96.88%** of customers in the customer classification used for this analysis.
-* Repeat customers account for approximately **3.12%**.
-* Health and beauty is a leading product category, generating approximately **R$1.26 million** in product revenue.
-* Credit cards represent the largest share of recorded payment value.
+I also found that the health and beauty category generated around **R$1.26 million** in product revenue. Credit cards accounted for the largest share of recorded payment value.
 
-**Visualizations**
-
-* Monthly revenue trend
-* Monthly order volume
-* Top 10 product categories by revenue
-* Customer type distribution
-* Revenue by payment method
-* Orders by payment method
-* Payment-method slicer
+The page includes monthly revenue, monthly order volume, top product categories, customer type distribution, revenue by payment method, and order counts by payment method.
 
 ![Sales and Customer Analysis](screenshots/02-sales-customer-analysis.png)
 
-**Payment method note:** Orders may use multiple payment methods. Consequently, the number of orders counted within each payment method can overlap, and adding the category counts does not produce the number of unique orders.
+**Payment method note**
+
+While checking payment performance, I found that adding the order counts across payment methods produced a total higher than the number of unique orders. This is because an order can use multiple payment methods. The category counts therefore overlap and should not be interpreted as unique orders when added together.
 
 ### 3. Delivery & Customer Experience
 
-Examines delivery performance, late deliveries, customer review scores, and geographic differences.
+For this page, I compared delivery performance with customer review scores to see whether the two were associated in the dataset.
 
-**Key metrics**
+The average delivery time was approximately **12.55 days**, and the delivery KPI view showed a late delivery rate of around **8.11%**.
 
-* Average delivery time: approximately **12.55 days**
-* Late delivery rate: approximately **8.11%**
-* Late orders: approximately **7,827** in the delivery KPI view
+I found a noticeable difference in average review scores: approximately **2.57 for late deliveries** compared with **4.29 for on-time deliveries** in the review analysis.
 
-**Key findings**
-
-* Late deliveries are associated with lower average review scores in the analyzed data.
-* The average review score is approximately **2.57** for late deliveries and **4.29** for on-time deliveries in the review analysis.
-* Some states have substantially higher late-delivery rates than others.
-
-**Visualizations**
-
-* Late versus on-time deliveries
-* Average delivery days by status
-* Average review score by delivery status
-* Reviews by delivery status
-* Revenue by state
-* Average order value by state
-* Orders by state
+I also compared revenue, average order value, order volume, and delivery performance across states. These comparisons help identify regions that may deserve closer investigation.
 
 ![Delivery and Customer Experience](screenshots/03-delivery-customer-experience.png)
 
-These comparisons identify associations in the dataset; they do not establish that delivery delays alone caused lower review scores. Delivery metrics can also differ across views because of their underlying data scope.
+The results show an association between delivery status and customer ratings, but they do not prove that delivery delays alone caused lower review scores. The metric totals can also vary between views depending on which records are included.
 
 ### 4. Seller Performance
 
-Compares seller revenue, order activity, items sold, and geographic distribution.
+On this page, I compared sellers by revenue and order activity and explored how seller performance varied geographically.
 
-**Key metrics**
+The dashboard reports:
 
 * Total sellers: **3,095**
 * Total orders: **99,441**
 * Total product revenue: **R$13.59 million**
 * Items sold: **112,650**
 
-**Visualizations**
+I included the top 10 sellers by revenue, the top 10 sellers by order count, seller revenue versus items sold by state, seller revenue by state, the number of sellers by state, and average item price by state.
 
-* Top 10 sellers by revenue
-* Top 10 sellers by orders
-* Seller revenue versus items sold by state
-* Seller revenue by state
-* Number of sellers by state
-* Average item price by state
-
-**Key finding**
-
-The five highest-revenue sellers collectively generated approximately **R$1.04 million**, or **7.61%** of total product revenue, indicating that a relatively small group of sellers contributed a meaningful share of sales.
+I found that the five highest-revenue sellers generated approximately **R$1.04 million**, or about **7.61% of total product revenue**.
 
 ![Seller Performance](screenshots/04-seller-performance.png)
 
-## Key Business Insights
+This comparison shows that seller contributions vary and provides a starting point for further analysis of seller activity and performance.
 
-### 1. Product revenue is concentrated in leading categories
+## Key Findings
 
-A small group of product categories contributes substantially to overall product revenue.
+After comparing the results across the four dashboard pages, I identified several patterns worth investigating further.
 
-**Business implication:** Prioritize inventory availability, category-level marketing, and performance monitoring for high-revenue categories.
+### Product categories contribute differently to revenue
 
-### 2. Repeat purchasing represents an opportunity
+Some categories generate considerably more product revenue than others. This makes category-level reporting useful when deciding where to focus inventory planning and marketing efforts.
 
-Repeat customers represent a relatively small proportion of the customers classified in this analysis.
+### Repeat purchasing is relatively limited
 
-**Business implication:** Test customer retention initiatives such as post-purchase communication, loyalty incentives, and relevant product recommendations. Measure whether these initiatives improve repeat purchasing.
+The customer classification showed a much larger share of one-time customers than repeat customers. This suggests an opportunity to investigate customer retention, although the result depends on the definition used to classify repeat customers.
 
-### 3. Delivery performance is associated with customer satisfaction
+### Delivery performance is associated with customer satisfaction
 
-Late deliveries are associated with lower review scores in the analyzed data.
+The difference in average review scores between late and on-time deliveries stood out in the analysis. Delivery reliability is therefore an area worth investigating alongside customer feedback.
 
-**Business implication:** Investigate fulfillment bottlenecks, monitor delivery estimates, and prioritize operational reviews in states with high late-delivery rates.
+### Payment methods have different levels of usage
 
-### 4. Payment methods serve different customer preferences
+Credit cards accounted for the largest share of recorded payment value. Other payment methods also contributed, and their order counts need to be interpreted with the overlap between payment categories in mind.
 
-Credit cards account for the largest share of recorded payment value, with boleto and other payment methods also contributing.
+### Seller performance varies
 
-**Business implication:** Monitor payment success, payment-method usage, and customer preferences when evaluating checkout performance.
+The comparison of seller revenue and order activity showed differences in seller contributions. Looking more closely at these differences could help identify patterns in seller performance.
 
-### 5. Seller performance varies
+### Performance differs across states
 
-Seller revenue and order volumes vary considerably.
-
-**Business implication:** Track seller-level performance, investigate operational differences, and identify opportunities to support sellers with growth potential.
-
-### 6. Geographic performance differs across states
-
-Revenue, order volume, and delivery performance vary geographically.
-
-**Business implication:** Use state-level analysis to prioritize logistics investigations, market planning, and service improvements.
+Revenue, order volume, and late-delivery rates varied geographically. These differences provide a starting point for further investigation into regional sales and logistics performance.
 
 ## Recommendations
 
-Based on the analysis, the following actions are recommended:
+Based on the patterns I found, I would investigate the following areas:
 
-1. **Improve customer retention:** Develop targeted retention initiatives and track repeat purchase rate over time.
-2. **Prioritize delivery reliability:** Investigate regions with high late-delivery rates and monitor delivery performance regularly.
-3. **Support high-performing product categories:** Use category-level revenue and order trends to inform inventory and marketing decisions.
-4. **Monitor seller performance:** Track revenue, order volume, and items sold to identify opportunities for seller support.
-5. **Optimize checkout performance:** Monitor payment-method usage and payment values while accounting for orders that use multiple payment methods.
-6. **Improve geographic planning:** Combine state-level sales and delivery metrics to guide further operational investigation.
+1. **Customer retention:** Look more closely at repeat purchasing and test ways to encourage customers to return.
+2. **Delivery performance:** Investigate states with higher late-delivery rates and review possible logistics bottlenecks.
+3. **Product categories:** Use revenue trends to help prioritize inventory and marketing efforts.
+4. **Seller performance:** Compare seller revenue and order activity to understand the differences between high-performing and other sellers.
+5. **Payment experience:** Monitor payment method usage and checkout performance while accounting for orders that use multiple payment methods.
 
-These recommendations are proposed actions based on observed patterns, not experimentally verified outcomes.
+These are recommendations based on the observed data. Further analysis would be needed to evaluate their potential impact.
 
 ## Metric Definitions and Notes
 
+To make the dashboard results easier to interpret, I used the following definitions and considerations:
+
 * **Product revenue:** Sum of product item prices, excluding freight.
 * **Freight:** Sum of recorded freight charges for order items.
-* **Average order value:** Defined in the relevant analytical view; the overall KPI is approximately R$136.68.
-* **Total orders:** Counts distinct orders from the orders table where the KPI is sourced from `olist_orders`.
-* **Orders by payment method:** Counts distinct orders within each payment method. An order can appear in more than one payment-method category.
+* **Average order value:** The overall KPI is approximately R$136.68, as calculated in the analytical view.
+* **Total orders:** The overall order KPI counts distinct orders from the orders table.
+* **Orders by payment method:** Counts distinct orders within each payment category. An order can appear in multiple categories.
 * **Late delivery rate:** Calculated within the scope of the delivery analysis and its eligible orders.
 * **Review metrics:** Calculated from the review records included in the relevant analysis.
 
-Totals may differ across visuals when views use different joins, date fields, or eligible records. Payment-method category counts can overlap, and order-item-based analyses may not include orders without associated items.
+I checked these metric definitions because different joins and record eligibility rules can affect the totals shown in individual visuals. For example, monthly sales views based on order items may exclude orders without associated items, while the overall order KPI counts orders from the orders table.
 
-## Repository Structure
+## Project Structure
 
 ```text
 Olist-dataset/
@@ -302,39 +208,30 @@ Olist-dataset/
 └── README.md
 ```
 
-The repository contain smaller CSV files. The large `olist_geolocation_dataset.csv` file is excluded because it exceeds GitHub's browser upload limit.
+The repository may also contain smaller CSV files. The large geolocation CSV is downloaded separately from Kaggle.
 
 ## How to Reproduce the Analysis
 
 1. Download the [Brazilian E-Commerce Public Dataset by Olist from Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
 2. Extract the CSV files into a local project folder.
-3. Create a PostgreSQL database.
-4. Import the CSV files into PostgreSQL using the required table structures and column data types.
-5. Run the SQL scripts in the `sql/` folder to create the analytical views and perform the analysis.
-6. Open the Power BI report in Power BI Desktop.
-7. Configure the PostgreSQL connection to match your local database settings.
-8. Refresh the data and review the four dashboard pages.
+3. Create a PostgreSQL database and import the required tables.
+4. Run the SQL scripts in the `sql/` folder to create the analytical views and perform the analysis.
+5. Open `Olist_Analysis.pbix` in Power BI Desktop.
+6. Update the PostgreSQL connection settings to match your local environment.
+7. Refresh the report and explore the four dashboard pages.
 
-Connection settings, local file paths, and import procedures may need to be adjusted for your environment.
+Database settings, connection details, and local file paths may need to be adjusted for your setup.
 
-## Limitations
+## What I Learned
 
-* The analysis reflects the historical period represented in the dataset and does not describe current e-commerce performance.
-* Observed relationships do not establish causation.
-* Some metrics depend on the records and joins used by each analytical view.
-* Payment-method order counts overlap when a single order uses multiple payment methods.
-* The original geolocation CSV is not stored in this repository due to its size and must be downloaded separately for reproduction.
+Working through this project gave me practical experience with relational data, SQL analysis, data validation, and Power BI reporting.
 
-## Conclusion
+One important lesson was to check how a metric is calculated before interpreting it. I found that overlapping payment method counts and differences in join scope can affect totals, even when the underlying data is correct. Understanding those details helped me present the dashboard results more clearly.
 
-This project demonstrates an end-to-end data analysis workflow, from data preparation and validation in PostgreSQL to SQL-based business analysis and interactive Power BI reporting.
-
-It highlights how e-commerce data can be used to evaluate sales, customer behavior, delivery performance, customer satisfaction, and seller activity, and to develop practical recommendations for further investigation.
+The project also gave me experience connecting SQL analysis to business questions and presenting the results in a format that users can explore.
 
 ## Author
 
 **Arista Kayirangwa Aimee**
 
-Data Analyst Portfolio Project
-
-Tools: PostgreSQL | SQL | Power BI | DAX
+Data analysis portfolio project using PostgreSQL, SQL and Power BI.
