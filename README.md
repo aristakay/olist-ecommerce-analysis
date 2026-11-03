@@ -222,6 +222,8 @@ The repository may also contain smaller CSV files. The large geolocation CSV is 
 
 Database settings, connection details, and local file paths may need to be adjusted for your setup.
 
+Data analysis portfolio project using PostgreSQL, SQL and Power BI.
+
 ## What I Learned
 
 Working through this project gave me practical experience with relational data, SQL analysis, data validation, and Power BI reporting.
@@ -234,4 +236,4 @@ The project also gave me experience connecting SQL analysis to business question
 
 **Arista Kayirangwa Aimee**
 
-Data analysis portfolio project using PostgreSQL, SQL and Power BI.
+
